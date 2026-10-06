@@ -1,21 +1,21 @@
 # -----------------------------------------------------------------------------
-# llama.cpp Server Container — CUDA 13.3 (RTX 3050, compute cap 8.6)
+# llama.cpp Server Container — CUDA 13.4 (RTX 3050, compute cap 8.6)
 #
 # Build:
-#   just containers.build --cuda 13.3
-#   # or: podman build -t llama-server:cuda13.3 -f containers/images/cuda-13-2.Containerfile containers/
+#   just containers.build --cuda 13.4
+#   # or: podman build -t llama-server:cuda13.4 -f containers/images/cuda-13-4.Containerfile containers/
 #
 # Run (standalone):
-#   just containers.run --cuda 13.3 --model /path/to/model.gguf
+#   just containers.run --cuda 13.4 --model /path/to/model.gguf
 #
 # Run (router mode — this instance as backend):
-#   just containers.router --model-a cuda12.9 --model-b cuda13.3
+#   just containers.router --model-a cuda12.9 --model-b cuda13.4
 # -----------------------------------------------------------------------------
 
 # -----------------------------------------------------------------------------
 # Build Stage
 # -----------------------------------------------------------------------------
-FROM nvidia/cuda:13.3.1-devel-ubuntu26.04 AS builder
+FROM nvidia/cuda:13.4.2-devel-ubuntu26.04 AS builder
 
 RUN apt-get update && apt-get install -y \
     git \
@@ -41,7 +41,7 @@ RUN git clone https://github.com/ggml-org/llama.cpp.git . \
     # -----------------------------------------------------------------------------
     # Runtime Stage
     # -----------------------------------------------------------------------------
-    FROM nvidia/cuda:13.3.1-runtime-ubuntu26.04
+    FROM nvidia/cuda:13.4.2-runtime-ubuntu26.04
     
     # Install runtime dependencies needed by llama-server
     RUN apt-get update && apt-get install -y \

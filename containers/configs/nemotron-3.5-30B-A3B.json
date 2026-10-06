@@ -1,10 +1,10 @@
 {
     "_comment": "Nemotron 3.5 Lightning 30B-A3B — MoE with speculative decoding",
-    "_comment2": "GPU: GTX 1060 (CUDA 12.9) | RTX 3050 (CUDA 13.2)",
+    "_comment2": "GPU: GTX 1060 (CUDA 12.9) | RTX 3050 (CUDA 13.4)",
 
     "model": "nemotron-3.5-30B-A3B",
     "model_path": "$LLAMA_MODELS_PATH/NVIDIA-Nemotron-3.5-Lightning-30B-A3B-Q4_0.gguf",
-    "cuda_version": "12.9",
+    "cuda_version": "13.4",
 
     "host": "0.0.0.0",
     "port": 9696,
