@@ -14,7 +14,7 @@
 #
 # GPU Mapping:
 #   GTX 1060 (compute 6.1) → llama-server:cuda12.9
-#   RTX 3050 (compute 8.6) → llama-server:cuda13.4
+#   RTX 3050 (compute 8.6) → llama-server:cuda13.5
 # =============================================================================
 
 # ---------------------------------------------------------------------------
@@ -36,15 +36,15 @@ BUILD_SCRIPTS := 'source-build/scripts'
 
 # WSL2 CUDA architecture defaults (from config/build.env)
 CUDA_ARCH_12_9 := '6.1'
-CUDA_ARCH_13_4 := '8.6'
+CUDA_ARCH_13_5 := '8.6'
 
 # Image names
 IMAGE_12_9 := 'localhost/llama-server:cuda12.9'
-IMAGE_13_4 := 'localhost/llama-server:cuda13.4'
+IMAGE_13_5 := 'localhost/llama-server:cuda13.5'
 
 # Container names
 CONTAINER_12_9 := 'llama-cpp-12.9'
-CONTAINER_13_4 := 'llama-cpp-13.4'
+CONTAINER_13_5 := 'llama-cpp-13.5'
 CONTAINER_ROUTER := 'llama-router'
 
 # Podman network
@@ -52,7 +52,7 @@ NETWORK := 'agentx-network'
 
 # Port defaults
 PORT_12_9 := '6969'
-PORT_13_4 := '9696'
+PORT_13_5 := '9696'
 
 # Host bind address
 HOST := '0.0.0.0'
@@ -96,18 +96,18 @@ build_12_9:
 	@echo "Building llama.cpp for CUDA 12.9 (GTX 1060, arch {{CUDA_ARCH_12_9}})..."
 	@bash '{{BUILD_SCRIPTS}}/build.sh' 12.9
 
-# Build llama.cpp from source (CUDA 13.4 — RTX 3050)
-# Usage: just build_13_4
-build_13_4:
-	@echo "Building llama.cpp for CUDA 13.4 (RTX 3050, arch {{CUDA_ARCH_13_4}})..."
-	@bash '{{BUILD_SCRIPTS}}/build.sh' 13.4
+# Build llama.cpp from source (CUDA 13.5 — RTX 3050)
+# Usage: just build_13_5
+build_13_5:
+	@echo "Building llama.cpp for CUDA 13.5 (RTX 3050, arch {{CUDA_ARCH_13_5}})..."
+	@bash '{{BUILD_SCRIPTS}}/build.sh' 13.5
 
 # Build llama.cpp from source (both CUDA versions)
 # Usage: just build-all
 build-all:
 	@echo "Building llama.cpp for all CUDA versions..."
 	@bash '{{BUILD_SCRIPTS}}/build.sh' 12.9
-	@bash '{{BUILD_SCRIPTS}}/build.sh' 13.4
+	@bash '{{BUILD_SCRIPTS}}/build.sh' 13.5
 
 # Build llama.cpp from source on Windows (PowerShell) — CUDA 12.9
 # Usage: just build_windows_12_9
@@ -116,11 +116,11 @@ build_windows_12_9:
 	@echo "Building llama.cpp for CUDA 12.9 (Windows/PowerShell)..."
 	powershell -ExecutionPolicy Bypass -File '{{BUILD_SCRIPTS}}/build.ps1'
 
-# Build llama.cpp from source on Windows (PowerShell) — CUDA 13.4
-# Usage: just build_windows_13_4
+# Build llama.cpp from source on Windows (PowerShell) — CUDA 13.5
+# Usage: just build_windows_13_5
 # Note: Run from Windows PowerShell, not WSL2
-build_windows_13_4:
-	@echo "Building llama.cpp for CUDA 13.4 (Windows/PowerShell)..."
+build_windows_13_5:
+	@echo "Building llama.cpp for CUDA 13.5 (Windows/PowerShell)..."
 	powershell -ExecutionPolicy Bypass -File '{{BUILD_SCRIPTS}}/build.ps1'
 
 # =============================================================================
@@ -133,18 +133,18 @@ container_build_12_9:
 	@echo "Building {{IMAGE_12_9}} from {{IMAGES_DIR}}/cuda-12-9.Containerfile..."
 	@podman build -t {{IMAGE_12_9}} -f '{{IMAGES_DIR}}/cuda-12-9.Containerfile' '{{CONTAINERS_DIR}}'
 
-# Build the CUDA 13.4 container image
-# Usage: just container_build_13_4
-container_build_13_4:
-	@echo "Building {{IMAGE_13_4}} from {{IMAGES_DIR}}/cuda-13-4.Containerfile..."
-	@podman build -t {{IMAGE_13_4}} -f '{{IMAGES_DIR}}/cuda-13-4.Containerfile' '{{CONTAINERS_DIR}}'
+# Build the CUDA 13.5 container image
+# Usage: just container_build_13_5
+container_build_13_5:
+	@echo "Building {{IMAGE_13_5}} from {{IMAGES_DIR}}/cuda-13-4.Containerfile..."
+	@podman build -t {{IMAGE_13_5}} -f '{{IMAGES_DIR}}/cuda-13-4.Containerfile' '{{CONTAINERS_DIR}}'
 
 # Build all container images
 # Usage: just container_build_all
 container_build_all:
 	@echo "Building all container images..."
 	@just container_build_12_9
-	@just container_build_13_4
+	@just container_build_13_5
 
 # List container images
 # Usage: just container_list
@@ -162,11 +162,11 @@ container_list:
 run_12_9 args:
 	@bash '{{RUNNER}}' --gpu 12.9 {{args}}
 
-# Run a single container (CUDA 13.4) with a model
-# Usage: just run_13_4 --model /mnt/f/models/my-model.gguf
-#          just run_13_4 --model /mnt/f/models/my-model.gguf --port 9698
-run_13_4 args:
-	@bash '{{RUNNER}}' --gpu 13.4 {{args}}
+# Run a single container (CUDA 13.5) with a model
+# Usage: just run_13_5 --model /mnt/f/models/my-model.gguf
+#          just run_13_5 --model /mnt/f/models/my-model.gguf --port 9698
+run_13_5 args:
+	@bash '{{RUNNER}}' --gpu 13.5 {{args}}
 
 # Run using a JSON config file
 # Usage: just run_config containers/configs/my-model.json
@@ -175,7 +175,7 @@ run_config args:
 
 # Run a single container (specify GPU version via --gpu flag)
 # Usage: just run --gpu 12.9 --model /mnt/f/models/model.gguf
-#          just run --gpu 13.4 --model /mnt/f/models/model.gguf --port 9698
+#          just run --gpu 13.5 --model /mnt/f/models/model.gguf --port 9698
 run args:
 	@bash '{{RUNNER}}' {{args}}
 
@@ -200,12 +200,12 @@ stop:
 
 # Stop a specific container
 # Usage: just stop_12_9
-#          just stop_13_4
+#          just stop_13_5
 stop_12_9:
 	@bash '{{RUNNER}}' --stop --gpu 12.9
 
-stop_13_4:
-	@bash '{{RUNNER}}' --stop --gpu 13.4
+stop_13_5:
+	@bash '{{RUNNER}}' --stop --gpu 13.5
 
 # ============================================================================
 # CONFIG — Config file operations
@@ -264,7 +264,7 @@ clean_all:
 # Usage: just clean_containers
 clean_containers:
 	@echo "Removing stopped containers..."
-	@podman rm llama-cpp-12.9 llama-cpp-13.4 llama-router 2>/dev/null || true
+	@podman rm llama-cpp-12.9 llama-cpp-13.5 llama-router 2>/dev/null || true
 	@echo "Done."
 
 # ============================================================================
@@ -338,11 +338,11 @@ info:
 	@echo ""
 	@echo "=== GPU Config ==="
 	@echo "GTX 1060 → {{IMAGE_12_9}} (CUDA 12.9, arch {{CUDA_ARCH_12_9}})"
-	@echo "RTX 3050 → {{IMAGE_13_4}} (CUDA 13.4, arch {{CUDA_ARCH_13_4}})"
+	@echo "RTX 3050 → {{IMAGE_13_5}} (CUDA 13.5, arch {{CUDA_ARCH_13_5}})"
 	@echo ""
 	@echo "=== Container Names ==="
 	@echo "{{CONTAINER_12_9}} → port {{PORT_12_9}}"
-	@echo "{{CONTAINER_13_4}} → port {{PORT_13_4}}"
+	@echo "{{CONTAINER_13_5}} → port {{PORT_13_5}}"
 	@echo "{{CONTAINER_ROUTER}} → port 9696"
 	@echo ""
 	@echo "=== Network ==="
@@ -370,20 +370,20 @@ help:
 	@echo ""
 	@echo "BUILD:"
 	@echo "  just build_12_9            Build llama.cpp for CUDA 12.9"
-	@echo "  just build_13_4            Build llama.cpp for CUDA 13.4"
+	@echo "  just build_13_5            Build llama.cpp for CUDA 13.5"
 	@echo "  just build-all             Build both CUDA versions"
 	@echo "  just build_windows_12_9    Build llama.cpp for CUDA 12.9 (Windows/PowerShell)"
-	@echo "  just build_windows_13_4    Build llama.cpp for CUDA 13.4 (Windows/PowerShell)"
+	@echo "  just build_windows_13_5    Build llama.cpp for CUDA 13.5 (Windows/PowerShell)"
 	@echo ""
 	@echo "CONTAINER:"
 	@echo "  just container_build_12_9  Build CUDA 12.9 image"
-	@echo "  just container_build_13_4  Build CUDA 13.4 image"
+	@echo "  just container_build_13_5  Build CUDA 13.5 image"
 	@echo "  just container_build_all   Build all images"
 	@echo "  just container_list        List images"
 	@echo ""
 	@echo "RUN:"
 	@echo "  just run --gpu 12.9 --model /path/to/model.gguf"
-	@echo "  just run --gpu 13.4 --model /path/to/model.gguf --port 9696"
+	@echo "  just run --gpu 13.5 --model /path/to/model.gguf --port 9696"
 	@echo "  just run_config --config containers/configs/my-model.json"
 	@echo "  just run_router --model-a /path/a.gguf --model-b /path/b.gguf"
 	@echo "  (GPU passthrough auto-detected: CDI or WSL2 manual mode)"
@@ -392,7 +392,7 @@ help:
 	@echo "  just status              Show container status"
 	@echo "  just stop                Stop all containers"
 	@echo "  just stop_12.9           Stop CUDA 12.9 container"
-	@echo "  just stop_13_4           Stop CUDA 13.4 container"
+	@echo "  just stop_13_5           Stop CUDA 13.5 container"
 	@echo ""
 	@echo "CONFIG:"
 	@echo "  just config_show <file>  Parse config (dry run)"

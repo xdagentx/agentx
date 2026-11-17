@@ -75,6 +75,7 @@ cmake -B build \
     -DGGML_NATIVE=OFF \
     -DCMAKE_INSTALL_PREFIX="$INSTALL_DIR" \
     -DCMAKE_CUDA_ARCHITECTURES="$CUDA_ARCH" \
+    -DCMAKE_CUDA_COMPILER="$CUDACXX" \
     -DCMAKE_BUILD_TYPE="$BUILD_TYPE"
 
 # ---------------------------------------------------------------------------
