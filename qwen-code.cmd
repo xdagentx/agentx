@@ -37,8 +37,8 @@ llama-server.exe ^
     --spec-draft-type-v q4_0 ^
     --image-min-tokens 1024 ^
     --cache-ram 1024 ^
-    --temperature 0.96 ^
-    --top-p 0.95 ^
+    --temperature 0.69 ^
+    --top-p 0.96 ^
     --top-k 40 ^
     --min-p 0.01 ^
     --repeat-penalty 1.0 ^

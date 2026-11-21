@@ -1,4 +1,4 @@
-export LLAMA_MODELS_PATH="$HOME/DevTools/ai/models/gguf"
+export LLAMA_MODELS_PATH="/run/media/mrkrynmdsco/Data/ai/models/gguf"
 
 llama-server \
     --model "$LLAMA_MODELS_PATH/Qwen3.6-35B-A3B-UD-Q4_K_M.gguf" \
@@ -32,8 +32,8 @@ llama-server \
     --cache-ram 1024 \
     --load-mode none \
     \
-    --temperature 0.96 \
-    --top-p 0.95 \
+    --temperature 0.69 \
+    --top-p 0.96 \
     --top-k 40 \
     --min-p 0.01 \
     --repeat-penalty 1.0 \
