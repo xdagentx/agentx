@@ -136,8 +136,8 @@ container_build_12_9:
 # Build the CUDA 13.5 container image
 # Usage: just container_build_13_5
 container_build_13_5:
-	@echo "Building {{IMAGE_13_5}} from {{IMAGES_DIR}}/cuda-13-4.Containerfile..."
-	@podman build -t {{IMAGE_13_5}} -f '{{IMAGES_DIR}}/cuda-13-4.Containerfile' '{{CONTAINERS_DIR}}'
+	@echo "Building {{IMAGE_13_5}} from {{IMAGES_DIR}}/cuda-13-5.Containerfile..."
+	@podman build -t {{IMAGE_13_5}} -f '{{IMAGES_DIR}}/cuda-13-5.Containerfile' '{{CONTAINERS_DIR}}'
 
 # Build all container images
 # Usage: just container_build_all
